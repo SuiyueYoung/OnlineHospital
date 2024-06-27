@@ -11,7 +11,7 @@
     <groupId>com.rectangle</groupId>
     <artifactId>OnlineHospital</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>OnlineHospital</name>
     <description>OnlineHospital</description>
     <url/>
