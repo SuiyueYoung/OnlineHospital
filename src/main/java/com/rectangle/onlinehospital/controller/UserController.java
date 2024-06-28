@@ -28,7 +28,7 @@ public class UserController {
         if (MD5_PATTERN.matcher(password).matches()) {
             return Result.error("Forbidden password");
         }
-        System.out.println("被访问");
+        System.out.println("1111");
         return userService.UserLogin(userID, password);
     }
 }
