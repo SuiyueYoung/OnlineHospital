@@ -8,4 +8,6 @@ spring:
     username: root
     password: 123456
 server:
-  port: 80
+  port: 10010
+  tomcat:
+    basedir: C:/Windows/Temp
