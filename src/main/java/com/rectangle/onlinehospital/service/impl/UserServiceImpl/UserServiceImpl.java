@@ -1,19 +1,13 @@
-package com.rectangle.onlinehospital.service.impl;
+package com.rectangle.onlinehospital.service.impl.UserServiceImpl;
 
 import com.rectangle.onlinehospital.mapper.UserMapper;
 import com.rectangle.onlinehospital.pojo.User;
 import com.rectangle.onlinehospital.service.UserService;
-import com.rectangle.onlinehospital.utils.JwtUtil;
 import com.rectangle.onlinehospital.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -45,18 +39,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result<String> UserLogin(String userID, String password) {
-        try {
-            User user = userMapper.findByUserID(userID);
-            if (user.getPassword().equals(DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8)))) {
-                Map<String, Object> claims = new HashMap<>();
-                claims.put("userID", user.getUserID());
-                claims.put("userType", user.getUserType());
-                String token = JwtUtil.getToken(claims);
-                return Result.success(token);
-            }
-            return Result.error("Wrong with username or password");
-        } catch (Exception ignore) {
-            return Result.error("Wrong with username or password");
-        }
+        return Result.success(null);
     }
 }
