@@ -16,12 +16,12 @@
 //import java.io.IOException;
 //
 //@Component
-//public class JwtRequestFilter extends OncePerRequestFilter {
+//public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //
 //    private final JwtTokenUtil jwtTokenUtil;
 //    private final JwtUserDetailsServiceImpl jwtUserDetailsService;
 //
-//    public JwtRequestFilter(JwtTokenUtil jwtTokenUtil, JwtUserDetailsServiceImpl jwtUserDetailsService) {
+//    public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, JwtUserDetailsServiceImpl jwtUserDetailsService) {
 //        this.jwtTokenUtil = jwtTokenUtil;
 //        this.jwtUserDetailsService = jwtUserDetailsService;
 //    }

@@ -17,7 +17,6 @@ class OnlineHospitalApplicationTests {
 
     @Test
     void UserLogin() {
-        System.out.println(userService.UserLogin("123", "123"));
     }
 
 }

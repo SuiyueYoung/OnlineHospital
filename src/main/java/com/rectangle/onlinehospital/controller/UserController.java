@@ -1,18 +1,16 @@
 package com.rectangle.onlinehospital.controller;
 
+import com.rectangle.onlinehospital.pojo.LoginRequest;
 import com.rectangle.onlinehospital.pojo.User;
 import com.rectangle.onlinehospital.service.UserService;
 import com.rectangle.onlinehospital.utils.Result;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -39,5 +37,10 @@ public class UserController {
         } catch (Exception ignore) {
             return Result.error("No such userID");
         }
+    }
+
+    @PostMapping("/login")
+    public Result<String> login(@RequestBody @NotNull LoginRequest loginRequest) {
+        return userService.login(loginRequest.getUserID(), loginRequest.getPassword());
     }
 }
