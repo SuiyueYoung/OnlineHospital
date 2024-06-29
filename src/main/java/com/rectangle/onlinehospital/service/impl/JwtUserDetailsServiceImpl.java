@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rectangle.onlinehospital.mapper.UserMapper;
 import com.rectangle.onlinehospital.pojo.SecurityUser;
 import com.rectangle.onlinehospital.pojo.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
