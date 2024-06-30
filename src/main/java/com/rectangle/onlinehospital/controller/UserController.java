@@ -21,6 +21,14 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * @Author Young
+     * @Date 6/30/2024 2:58 PM
+     * @Description
+     * @Param [null]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.util.List<com.rectangle.onlinehospital.pojo.User>>
+     * @Since version 1.0
+     */
     @GetMapping("/userList")
     public Result<List<User>> getAll() {
         try {
@@ -30,6 +38,14 @@ public class UserController {
         }
     }
 
+    /**
+     * @Author Young
+     * @Date 6/30/2024 2:59 PM
+     * @Description 
+     * @Param [userID]
+     * @Return com.rectangle.onlinehospital.utils.Result<com.rectangle.onlinehospital.pojo.User>
+     * @Since version 1.0
+     */
     @PostMapping("/getById")
     public Result<User> getByUserID(@RequestBody String userID) {
         try {
@@ -39,8 +55,29 @@ public class UserController {
         }
     }
 
+    /**
+     * @Author Young
+     * @Date 6/30/2024 2:59 PM
+     * @Description 
+     * @Param [loginRequest]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
     @PostMapping("/login")
     public Result<String> login(@RequestBody @NotNull LoginRequest loginRequest) {
-        return userService.login(loginRequest.getUserID(), loginRequest.getPassword());
+        return userService.userLogin(loginRequest.getUserID(), loginRequest.getPassword());
+    }
+
+    /**
+     * @Author Young
+     * @Date 6/30/2024 2:59 PM
+     * @Description 
+     * @Param [user]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
+    @PostMapping("/register")
+    public Result<String> register(@RequestBody @NotNull User user) {
+        return userService.userRegister(user);
     }
 }

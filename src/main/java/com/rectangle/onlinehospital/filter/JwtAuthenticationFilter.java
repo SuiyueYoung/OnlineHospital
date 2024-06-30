@@ -1,6 +1,6 @@
 package com.rectangle.onlinehospital.filter;
 
-import com.rectangle.onlinehospital.service.impl.JwtUserDetailsServiceImpl;
+import com.rectangle.onlinehospital.service.impl.UserDetailsServiceImpl;
 import com.rectangle.onlinehospital.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -14,27 +14,43 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
-    private final JwtUserDetailsServiceImpl jwtUserDetailsService;
+    private final UserDetailsServiceImpl jwtUserDetailsService;
 
-    public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, JwtUserDetailsServiceImpl jwtUserDetailsService) {
+    public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl jwtUserDetailsService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
+    /**
+     * @Author Young
+     * @Date 6/30/2024 3:00 PM
+     * @Description 
+     * @Param [request, response, filterChain]
+     * @Return void
+     * @Since version 1.0
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String uri = request.getRequestURI();
+
+        if ("/user/login".equals(uri)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String authorizationHeader = request.getHeader("Authorization");
 
         String username = null;
         String jwt = null;
 
         // JWT Token is in the form "Bearer token". Remove "Bearer " and get only the token
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (!Objects.isNull(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
             try {
                 username = jwtTokenUtil.extractUsername(jwt);
@@ -48,11 +64,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // Validate the token
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (!Objects.isNull(username) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
             if (jwtTokenUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(username, null, null);
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }

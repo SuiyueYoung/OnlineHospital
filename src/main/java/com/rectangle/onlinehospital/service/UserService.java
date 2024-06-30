@@ -6,6 +6,7 @@ import com.rectangle.onlinehospital.utils.Result;
 
 public interface UserService extends IService<User> {
 
-    Result<String> login(String username, String password);
+    Result<String> userLogin(String username, String password);
 
+    Result<String> userRegister(User user);
 }

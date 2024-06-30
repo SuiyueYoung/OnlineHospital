@@ -29,7 +29,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Result<String> login(String username, String password) {
+    public Result<String> userLogin(String username, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         if (Objects.isNull(authentication)) {
@@ -37,5 +37,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
         return Result.success(jwtTokenUtil.generateToken(securityUser));
+    }
+
+    /**
+     * @Author Young
+     * @Date 6/30/2024 3:01 PM
+     * @Description 
+     * @Param [user]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
+    @Override
+    public Result<String> userRegister(User user) {
+        return null;
     }
 }
