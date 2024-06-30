@@ -26,10 +26,10 @@ public class UserController {
      * @Date 6/30/2024 2:58 PM
      * @Description
      * @Param [null]
-     * @Return com.rectangle.onlinehospital.utils.Result<java.util.List<com.rectangle.onlinehospital.pojo.User>>
+     * @Return com.rectangle.onlinehospital.utils.Result<java.util.List < com.rectangle.onlinehospital.pojo.User>>
      * @Since version 1.0
      */
-    @GetMapping("/userList")
+    @GetMapping("/getAll")
     public Result<List<User>> getAll() {
         try {
             return Result.success(userService.list());
@@ -41,24 +41,46 @@ public class UserController {
     /**
      * @Author Young
      * @Date 6/30/2024 2:59 PM
-     * @Description 
+     * @Description
      * @Param [userID]
      * @Return com.rectangle.onlinehospital.utils.Result<com.rectangle.onlinehospital.pojo.User>
      * @Since version 1.0
      */
-    @PostMapping("/getById")
+    @PostMapping("/getByUserID")
     public Result<User> getByUserID(@RequestBody String userID) {
-        try {
-            return Result.success(userService.getById(userID));
-        } catch (Exception ignore) {
-            return Result.error("No such userID");
-        }
+        return Result.success(userService.getById(userID));
+    }
+
+    /**
+     * @Author Young
+     * @Date 6/30/2024 10:02 PM
+     * @Description 
+     * @Param [user]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
+    @PostMapping("/updateUserInfo")
+    public Result<String> updateUserInfo(@RequestBody User user) {
+        return userService.updateInfo(user);
+    }
+
+    /**
+     * @Author Young
+     * @Date 6/30/2024 10:06 PM
+     * @Description 
+     * @Param [user]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
+    @PostMapping("/updateUserPassword")
+    public Result<String> updateUserPassword(@RequestBody User user) {
+        return userService.updatePassword(user);
     }
 
     /**
      * @Author Young
      * @Date 6/30/2024 2:59 PM
-     * @Description 
+     * @Description
      * @Param [loginRequest]
      * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
      * @Since version 1.0
@@ -71,7 +93,7 @@ public class UserController {
     /**
      * @Author Young
      * @Date 6/30/2024 2:59 PM
-     * @Description 
+     * @Description
      * @Param [user]
      * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
      * @Since version 1.0
