@@ -1,6 +1,7 @@
 package com.rectangle.onlinehospital.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rectangle.onlinehospital.controller.UserController;
 import com.rectangle.onlinehospital.mapper.UserMapper;
 import com.rectangle.onlinehospital.pojo.SecurityUser;
 import com.rectangle.onlinehospital.pojo.User;
@@ -12,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -22,11 +25,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final AuthenticationManager authenticationManager;
 
     private final JwtTokenUtil jwtTokenUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
+    public UserServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -51,6 +56,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Result<String> userRegister(User user) {
-        return null;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserType(1);
+        boolean ifRegister= save(user);
+        if(ifRegister){
+            return Result.success("token_string");
+        }else{
+            return Result.error("用户注册失败");
+        }
     }
 }
