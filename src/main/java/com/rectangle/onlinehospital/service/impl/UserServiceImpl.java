@@ -1,5 +1,6 @@
 package com.rectangle.onlinehospital.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rectangle.onlinehospital.controller.UserController;
 import com.rectangle.onlinehospital.mapper.UserMapper;
@@ -17,8 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
@@ -34,6 +33,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * @Author Young
+     * @Date 6/30/2024 10:10 PM
+     * @Description
+     * @Param [username, password]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
     @Override
     public Result<String> userLogin(String username, String password) {
         try {
@@ -65,5 +72,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }else{
             return Result.error("用户注册失败");
         }
+    }
+
+    /**
+     * @Author Young
+     * @Date 6/30/2024 9:45 PM
+     * @Description
+     * @Param [user]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
+    @Override
+    public Result<String> updateInfo(User user) {
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(User::getUserID, user.getUserID())
+                .set(User::getSex, user.getSex())
+                .set(User::getBirthday, user.getBirthday());
+        return baseMapper.update(null, updateWrapper) > 0 ?
+                Result.success(user.getUserID() + " update success") :
+                Result.error(user.getUserID() + " update error");
+    }
+
+    /**
+     * @Author Young
+     * @Date 6/30/2024 10:09 PM
+     * @Description 
+     * @Param [user]
+     * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
+     * @Since version 1.0
+     */
+    @Override
+    public Result<String> updatePassword(User user) {
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(User::getUserID, user.getUserID())
+                .set(User::getPassword, user.getPassword());
+        return baseMapper.update(null, updateWrapper) > 0 ?
+                Result.success(user.getUserID() + " update success") :
+                Result.error(user.getUserID() + " update error");
     }
 }
