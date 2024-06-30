@@ -2,7 +2,6 @@ package com.rectangle.onlinehospital.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rectangle.onlinehospital.controller.UserController;
 import com.rectangle.onlinehospital.mapper.UserMapper;
 import com.rectangle.onlinehospital.pojo.SecurityUser;
 import com.rectangle.onlinehospital.pojo.User;
@@ -63,7 +62,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Result<String> userRegister(User user) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserType(1);
         boolean ifRegister= save(user);
@@ -110,4 +108,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 Result.success(user.getUserID() + " update success") :
                 Result.error(user.getUserID() + " update error");
     }
+
 }
