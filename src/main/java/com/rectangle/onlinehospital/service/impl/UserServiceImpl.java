@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -30,13 +31,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Result<String> userLogin(String username, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        if (Objects.isNull(authentication)) {
-            throw new RuntimeException("Wrong with username or password");
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+            return Result.success(jwtTokenUtil.generateToken(securityUser));
+        } catch (AuthenticationException e) {
+            return Result.error("Wrong username or password");
         }
-        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        return Result.success(jwtTokenUtil.generateToken(securityUser));
     }
 
     /**
