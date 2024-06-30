@@ -42,7 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * @Author Young
      * @Date 6/30/2024 3:01 PM
-     * @Description 
+     * @Description
      * @Param [user]
      * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
      * @Since version 1.0
