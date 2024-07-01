@@ -12,10 +12,10 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class loginSuccessHandler implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final HttpServletResponse httpServletResponse;
 
-    public loginSuccessHandler(HttpServletResponse httpServletResponse) {
+    public LoginSuccessHandler(HttpServletResponse httpServletResponse) {
         this.httpServletResponse = httpServletResponse;
     }
 

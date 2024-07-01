@@ -19,4 +19,19 @@ public class Result<T> {
     public static <T> Result<T> error(String message) {
         return new Result<>(1, message, null);
     }
+
+    public Result<T> code(int code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public Result<T> message(String message) {
+        this.setMessage(message);
+        return this;
+    }
+
+    public Result<T> data(T data) {
+        this.setData(data);
+        return this;
+    }
 }
