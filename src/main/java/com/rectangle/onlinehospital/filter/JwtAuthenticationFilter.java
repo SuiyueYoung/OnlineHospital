@@ -1,5 +1,6 @@
 package com.rectangle.onlinehospital.filter;
 
+import com.rectangle.onlinehospital.handler.LoginFailureHandler;
 import com.rectangle.onlinehospital.service.impl.UserDetailsServiceImpl;
 import com.rectangle.onlinehospital.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -8,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -21,10 +23,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsServiceImpl jwtUserDetailsService;
+    private final LoginFailureHandler loginFailureHandler;
 
-    public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl jwtUserDetailsService) {
+    public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl jwtUserDetailsService, LoginFailureHandler loginFailureHandler) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.jwtUserDetailsService = jwtUserDetailsService;
+        this.loginFailureHandler = loginFailureHandler;
     }
 
     /**
@@ -42,10 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (!("/user/login".equals(uri) || "/user/register".equals(uri))) {
                 this.validateToken(request);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (AuthenticationException e) {
+            loginFailureHandler.onAuthenticationFailure(request, response, e);
         }
-
         filterChain.doFilter(request, response);
     }
 

@@ -41,14 +41,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Result<String> userLogin(String username, String password) {
-        try {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-            return Result.success(jwtTokenUtil.generateToken(securityUser));
-        } catch (AuthenticationException e) {
-            return Result.error("Wrong username or password");
-        }
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+        return Result.success(jwtTokenUtil.generateToken(securityUser));
     }
 
     /**
@@ -62,7 +58,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Result<String> userRegister(User user) {
         try {
-
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setUserType(1);
             boolean ifRegister = save(user);
@@ -112,5 +107,4 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 Result.success(user.getUserID() + " update success") :
                 Result.error(user.getUserID() + " update error");
     }
-
 }
