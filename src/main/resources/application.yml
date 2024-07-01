@@ -14,7 +14,7 @@ server:
     basedir: C:/Windows/Temp
 logging:
   level:
-    org.springframework.security: DEBUG
+    org.springframework.security: TRACE
 user-roles:
   roles:
     0: "ROLE_SUPERUSER"

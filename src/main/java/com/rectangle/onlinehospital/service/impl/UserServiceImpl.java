@@ -62,13 +62,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Result<String> userRegister(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setUserType(1);
-        boolean ifRegister= save(user);
-        if(ifRegister){
-            return Result.success("token_string");
-        }else{
-            return Result.error("用户注册失败");
+        try {
+
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setUserType(1);
+            boolean ifRegister = save(user);
+            if (ifRegister) {
+                return Result.success("token_string");
+            } else {
+                return Result.error("用户注册失败");
+            }
+        } catch (AuthenticationException ignore) {
+            return Result.error("User register error");
         }
     }
 
@@ -94,7 +99,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * @Author Young
      * @Date 6/30/2024 10:09 PM
-     * @Description 
+     * @Description
      * @Param [user]
      * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
      * @Since version 1.0
