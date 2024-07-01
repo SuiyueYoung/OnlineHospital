@@ -2,6 +2,7 @@ package com.rectangle.onlinehospital.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.rectangle.onlinehospital.exception.CustomerAuthenticationException;
 import com.rectangle.onlinehospital.utils.Result;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
@@ -28,10 +29,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
      */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.setContentType("application/json:charset=STF-8");
+        response.setContentType("application/json:charset=UTF-8");
 
         ServletOutputStream outputStream = response.getOutputStream();
-        String message = null;
+        String message;
         int code = 500;
 
         if (exception instanceof AccountExpiredException) {
@@ -46,6 +47,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             message = "Account locked";
         } else if (exception instanceof InsufficientAuthenticationException) {
             message = "Account not exits";
+        } else if (exception instanceof CustomerAuthenticationException) {
+            message = exception.getMessage();
+            code = 600;
         } else {
             message = "Login error";
         }

@@ -11,5 +11,4 @@ import java.util.Map;
 @Data
 public class UserRoleConfig {
     private Map<Integer, String> roles;
-
 }

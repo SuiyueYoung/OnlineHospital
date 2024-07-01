@@ -1,16 +1,15 @@
 package com.rectangle.onlinehospital.config;
 
+import com.rectangle.onlinehospital.handler.CustomerAccessDeniedHandler;
 import com.rectangle.onlinehospital.filter.JwtAuthenticationFilter;
 import com.rectangle.onlinehospital.handler.LoginFailureHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,10 +24,13 @@ public class WebSecurityConfig {
 
     private final LoginFailureHandler loginFailureHandler;
 
+    private final CustomerAccessDeniedHandler customerAccessDeniedHandler;
+
     @Autowired
-    public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, LoginFailureHandler loginFailureHandler) {
+    public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, LoginFailureHandler loginFailureHandler, CustomerAccessDeniedHandler customerAccessDeniedHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.loginFailureHandler = loginFailureHandler;
+        this.customerAccessDeniedHandler = customerAccessDeniedHandler;
     }
 
 
@@ -62,6 +64,8 @@ public class WebSecurityConfig {
         );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling(configure -> configure.accessDeniedHandler(customerAccessDeniedHandler));
 
         return http.build();
     }

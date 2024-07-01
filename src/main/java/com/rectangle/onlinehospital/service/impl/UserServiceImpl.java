@@ -41,10 +41,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Result<String> userLogin(String username, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        return Result.success(jwtTokenUtil.generateToken(securityUser));
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+            return Result.success(jwtTokenUtil.generateToken(securityUser));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
