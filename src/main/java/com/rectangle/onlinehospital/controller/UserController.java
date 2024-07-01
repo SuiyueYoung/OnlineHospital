@@ -31,11 +31,7 @@ public class UserController {
      */
     @GetMapping("/getAll")
     public Result<List<User>> getAll() {
-        try {
-            return Result.success(userService.list());
-        } catch (Exception ignore) {
-            return Result.error("Database access error");
-        }
+        return Result.success(userService.list());
     }
 
     /**
@@ -54,7 +50,7 @@ public class UserController {
     /**
      * @Author Young
      * @Date 6/30/2024 10:02 PM
-     * @Description 
+     * @Description
      * @Param [user]
      * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
      * @Since version 1.0
@@ -67,7 +63,7 @@ public class UserController {
     /**
      * @Author Young
      * @Date 6/30/2024 10:06 PM
-     * @Description 
+     * @Description
      * @Param [user]
      * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
      * @Since version 1.0
