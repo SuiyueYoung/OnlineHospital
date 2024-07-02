@@ -1,7 +1,7 @@
 package com.rectangle.onlinehospital.controller;
 
-import com.rectangle.onlinehospital.pojo.LoginRequest;
-import com.rectangle.onlinehospital.pojo.User;
+import com.rectangle.onlinehospital.entity.request.LoginDto;
+import com.rectangle.onlinehospital.entity.User;
 import com.rectangle.onlinehospital.service.UserService;
 import com.rectangle.onlinehospital.utils.Result;
 import org.jetbrains.annotations.NotNull;
@@ -82,8 +82,8 @@ public class UserController {
      * @Since version 1.0
      */
     @PostMapping("/login")
-    public Result<String> login(@RequestBody @NotNull LoginRequest loginRequest) {
-        return userService.userLogin(loginRequest.getUserID(), loginRequest.getPassword());
+    public Result<String> login(@RequestBody @NotNull LoginDto loginDto) {
+        return userService.userLogin(loginDto.getUserID(), loginDto.getPassword());
     }
 
     /**

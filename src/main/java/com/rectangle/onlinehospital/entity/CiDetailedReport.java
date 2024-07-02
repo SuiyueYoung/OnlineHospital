@@ -1,4 +1,4 @@
-package com.rectangle.onlinehospital.pojo;
+package com.rectangle.onlinehospital.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -9,10 +9,10 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("checkitemdetailed")
-public class CheckItemDetailed {
-    @TableId(value = "cdId", type = IdType.AUTO)
-    private String cdID;
+@TableName("cidetailedreport")
+public class CiDetailedReport {
+    @TableId(value = "cidrId", type = IdType.AUTO)
+    private String cidrID;
 
     @TableField("name")
     private String name;
@@ -35,9 +35,15 @@ public class CheckItemDetailed {
     @TableField("type")
     private String type;
 
+    @TableField("value")
+    private String value;
+
+    @TableField("siError")
+    private String siError;
+
     @TableField("ciId")
     private String ciID;
 
-    @TableField("remarks")
-    private String remarks;
+    @TableField("orderId")
+    private String orderID;
 }

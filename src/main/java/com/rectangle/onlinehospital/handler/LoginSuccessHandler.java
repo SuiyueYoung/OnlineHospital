@@ -1,6 +1,6 @@
 package com.rectangle.onlinehospital.handler;
 
-import com.rectangle.onlinehospital.pojo.SecurityUser;
+import com.rectangle.onlinehospital.entity.security.SecurityUserDo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +21,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        log.info("User {} login successfully.", securityUser.getUsername());
+        SecurityUserDo securityUserDo = (SecurityUserDo) authentication.getPrincipal();
+        log.info("User {} login successfully.", securityUserDo.getUsername());
         httpServletResponse.sendRedirect("/home");
     }
 }

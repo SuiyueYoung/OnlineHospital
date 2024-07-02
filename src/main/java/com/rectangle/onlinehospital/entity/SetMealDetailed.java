@@ -1,4 +1,4 @@
-package com.rectangle.onlinehospital.pojo;
+package com.rectangle.onlinehospital.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

@@ -1,19 +1,20 @@
-package com.rectangle.onlinehospital.pojo;
+package com.rectangle.onlinehospital.entity.security;
 
 import com.rectangle.onlinehospital.config.UserRoleConfig;
+import com.rectangle.onlinehospital.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-public class SecurityUser implements UserDetails {
+public class SecurityUserDo implements UserDetails {
 
     private final User user;
 
     private final UserRoleConfig userRoleConfig;
 
-    public SecurityUser(User user, UserRoleConfig userRoleConfig) {
+    public SecurityUserDo(User user, UserRoleConfig userRoleConfig) {
         this.user = user;
         this.userRoleConfig = userRoleConfig;
     }

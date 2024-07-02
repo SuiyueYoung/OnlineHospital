@@ -1,9 +1,9 @@
-package com.rectangle.onlinehospital.pojo;
+package com.rectangle.onlinehospital.entity.request;
 
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class LoginDto {
     private String userID;
 
     private String password;

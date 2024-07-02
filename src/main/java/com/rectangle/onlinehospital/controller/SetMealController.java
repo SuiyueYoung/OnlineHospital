@@ -1,9 +1,9 @@
 package com.rectangle.onlinehospital.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rectangle.onlinehospital.pojo.CheckItem;
-import com.rectangle.onlinehospital.pojo.SetMeal;
-import com.rectangle.onlinehospital.pojo.SetMealDetailed;
+import com.rectangle.onlinehospital.entity.CheckItem;
+import com.rectangle.onlinehospital.entity.SetMeal;
+import com.rectangle.onlinehospital.entity.SetMealDetailed;
 import com.rectangle.onlinehospital.service.CheckItemService;
 import com.rectangle.onlinehospital.service.SetMealDetailedService;
 import com.rectangle.onlinehospital.service.SetMealService;

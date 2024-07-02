@@ -2,7 +2,7 @@ package com.rectangle.onlinehospital.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rectangle.onlinehospital.pojo.Hospital;
+import com.rectangle.onlinehospital.entity.Hospital;
 import com.rectangle.onlinehospital.service.HospitalService;
 import com.rectangle.onlinehospital.utils.Result;
 import org.jetbrains.annotations.NotNull;
