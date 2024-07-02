@@ -7,6 +7,7 @@ import com.rectangle.onlinehospital.entity.Hospital;
 import com.rectangle.onlinehospital.entity.Order;
 import com.rectangle.onlinehospital.entity.request.CheckAvailabilityDto;
 import com.rectangle.onlinehospital.entity.response.AvailabilityVo;
+import com.rectangle.onlinehospital.exception.CustomerAuthenticationException;
 import com.rectangle.onlinehospital.mapper.OrderMapper;
 import com.rectangle.onlinehospital.service.HospitalService;
 import com.rectangle.onlinehospital.service.OrderService;
@@ -34,6 +35,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public Result<AvailabilityVo> checkAvailability(CheckAvailabilityDto checkAvailabilityDto) {
         Hospital hospital = hospitalService.getById(checkAvailabilityDto.getHpID());
+        if (Objects.isNull(hospital)) {
+            throw new CustomerAuthenticationException("Fail to find hospital " + checkAvailabilityDto.getHpID());
+        }
         JSONObject jsonObject = JSON.parseObject(hospital.getRule());
         int year = checkAvailabilityDto.getStartDate().getYear();
         int month = checkAvailabilityDto.getStartDate().getMonthValue();

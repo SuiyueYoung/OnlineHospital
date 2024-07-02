@@ -3,7 +3,6 @@ package com.rectangle.onlinehospital;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.rectangle.onlinehospital.entity.request.CheckAvailabilityDto;
-import com.rectangle.onlinehospital.service.OrderService;
 import com.rectangle.onlinehospital.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
