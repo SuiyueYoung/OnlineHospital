@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/setmeal")
+@RequestMapping("/setMeal")
 public class SetMealController {
 
     private final SetMealService setMealService;
