@@ -3,6 +3,7 @@ package com.rectangle.onlinehospital.entity.response;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class AvailabilityVo {
@@ -11,8 +12,10 @@ public class AvailabilityVo {
 
     private Integer month;
 
+    private List<availableDays> availableDays;
+
     @Data
-    private static class days {
+    public static class availableDays {
 
         private LocalDate date;
 
