@@ -1,5 +1,7 @@
 package com.rectangle.onlinehospital.service.impl;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rectangle.onlinehospital.entity.Hospital;
 import com.rectangle.onlinehospital.entity.Order;
@@ -14,38 +16,37 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
-
-    private final OrderMapper orderMapper;
 
     private final HospitalService hospitalService;
 
     @Autowired
     public OrderServiceImpl(OrderMapper orderMapper, HospitalService hospitalService) {
-        this.orderMapper = orderMapper;
         this.hospitalService = hospitalService;
     }
 
     @Override
     public Result<AvailabilityVo> checkAvailability(CheckAvailabilityDto checkAvailabilityDto) {
         Hospital hospital = hospitalService.getById(checkAvailabilityDto.getHpID());
-        String[] rules = hospital.getRule().split(",");
-        Map<Integer, Integer> reserve = new HashMap<>();
-        for (int i = 0; i < rules.length; i++) {
-            reserve.put(i, Integer.valueOf(rules[i]));
-        }
-
+        JSONObject jsonObject = JSON.parseObject(hospital.getRule());
         int year = checkAvailabilityDto.getStartDate().getYear();
         int month = checkAvailabilityDto.getStartDate().getMonthValue();
         AvailabilityVo availabilityVo = calenderGenerate(year, month);
 
-        // TODO
+        jsonObject.forEach((key, value) -> {
+            for (AvailabilityVo.availableDays day : availabilityVo.getAvailableDays()) {
+                if (!Objects.isNull(day.getDate()) && day.getDate().equals(LocalDate.parse(key, DateTimeFormatter.ofPattern("yyyy-MM-dd")))) {
+                    day.setRemainSlots(Integer.parseInt(value.toString()));
+                    day.setReserve(true);
+                }
+            }
+        });
 
         return Result.success(availabilityVo);
     }

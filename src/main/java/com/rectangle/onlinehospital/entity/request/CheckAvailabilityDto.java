@@ -13,7 +13,4 @@ public class CheckAvailabilityDto {
 
     @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
     private LocalDate startDate;
-
-    @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
-    private LocalDate endDate;
 }
