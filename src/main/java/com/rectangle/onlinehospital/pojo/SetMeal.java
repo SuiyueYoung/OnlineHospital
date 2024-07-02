@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("setmeal")
@@ -22,4 +24,7 @@ public class SetMeal {
 
     @TableField(value = "price")
     private Integer price;
+
+    @TableField(exist = false)
+    private List<CheckItem> checkitemList;
 }
