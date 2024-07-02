@@ -36,7 +36,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public Result<AvailabilityVo> checkAvailability(CheckAvailabilityDto checkAvailabilityDto) {
         Hospital hospital = hospitalService.getById(checkAvailabilityDto.getHpID());
         if (Objects.isNull(hospital)) {
-            throw new CustomerAuthenticationException("Fail to find hospital " + checkAvailabilityDto.getHpID());
+            throw new CustomerAuthenticationException("Fail to find hospital by hospital ID " + checkAvailabilityDto.getHpID());
         }
         JSONObject jsonObject = JSON.parseObject(hospital.getRule());
         int year = checkAvailabilityDto.getStartDate().getYear();
