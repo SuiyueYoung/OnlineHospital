@@ -7,10 +7,7 @@ import com.rectangle.onlinehospital.service.DoctorService;
 import com.rectangle.onlinehospital.utils.Result;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/doctor")
@@ -31,12 +28,12 @@ public class DoctorController {
      * @Return com.rectangle.onlinehospital.utils.Result<java.lang.String>
      * @Since version 1.0
      */
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public Result<String> login(@RequestBody @NotNull LoginDto loginDto) {
         return doctorService.doctorLogin(loginDto.getUsername(), loginDto.getPassword());
     }
 
-    @RequestMapping("/phyExamReserve")
+    @GetMapping("/phyExamReserve")
     public Result<IPage<PhyExamReserveVo>> getPhyExamReserve(@RequestParam @NotNull Integer page, @RequestParam @NotNull Integer size, @RequestParam @NotNull Integer doctorID) {
         return Result.success(doctorService.getPhyExamReserve(page, size, doctorID));
     }
