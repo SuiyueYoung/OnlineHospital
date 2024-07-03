@@ -24,13 +24,13 @@ public class WebSecurityConfig {
 
     private final LoginFailureHandler loginFailureHandler;
 
-    @Autowired
-    private CustomerAccessDeniedHandler customerAccessDeniedHandler;
+    private final CustomerAccessDeniedHandler customerAccessDeniedHandler;
 
     @Autowired
-    public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, LoginFailureHandler loginFailureHandler) {
+    public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, LoginFailureHandler loginFailureHandler, CustomerAccessDeniedHandler customerAccessDeniedHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.loginFailureHandler = loginFailureHandler;
+        this.customerAccessDeniedHandler = customerAccessDeniedHandler;
     }
 
 

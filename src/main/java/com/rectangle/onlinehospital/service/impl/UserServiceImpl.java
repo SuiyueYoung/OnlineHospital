@@ -2,6 +2,8 @@ package com.rectangle.onlinehospital.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rectangle.onlinehospital.entity.Order;
+import com.rectangle.onlinehospital.mapper.OrderMapper;
 import com.rectangle.onlinehospital.mapper.UserMapper;
 import com.rectangle.onlinehospital.entity.security.SecurityUserDo;
 import com.rectangle.onlinehospital.entity.User;
@@ -20,15 +22,16 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final AuthenticationManager authenticationManager;
-
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
+    private final OrderMapper orderMapper;
 
     @Autowired
-    public UserServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, PasswordEncoder passwordEncoder, OrderMapper orderMapper) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.passwordEncoder = passwordEncoder;
+        this.orderMapper = orderMapper;
     }
 
     /**
@@ -110,5 +113,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return baseMapper.update(null, updateWrapper) > 0 ?
                 Result.success(user.getUserID() + " update success") :
                 Result.error(user.getUserID() + " update error");
+    }
+
+    @Override
+    public Result<String> submitOrder(Order order) {
+        try {
+            return orderMapper.insert(order) > 0 ?
+                    Result.success(null) :
+                    Result.error("Fail to submit order");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

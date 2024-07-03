@@ -1,12 +1,15 @@
 package com.rectangle.onlinehospital.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rectangle.onlinehospital.entity.request.LoginDto;
+import com.rectangle.onlinehospital.entity.response.PhyExamReserveVo;
 import com.rectangle.onlinehospital.service.DoctorService;
 import com.rectangle.onlinehospital.utils.Result;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,5 +34,10 @@ public class DoctorController {
     @RequestMapping("/login")
     public Result<String> login(@RequestBody @NotNull LoginDto loginDto) {
         return doctorService.doctorLogin(loginDto.getUserID(), loginDto.getPassword());
+    }
+
+    @RequestMapping("/phyExamReserve")
+    public Result<IPage<PhyExamReserveVo>> getPhyExamReserve(@RequestParam @NotNull Integer page, @RequestParam @NotNull Integer size, @RequestParam @NotNull Integer doctorID) {
+        return Result.success(doctorService.getPhyExamReserve(page, size, doctorID));
     }
 }

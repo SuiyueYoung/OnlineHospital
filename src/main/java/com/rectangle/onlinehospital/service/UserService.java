@@ -1,6 +1,7 @@
 package com.rectangle.onlinehospital.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rectangle.onlinehospital.entity.Order;
 import com.rectangle.onlinehospital.entity.User;
 import com.rectangle.onlinehospital.utils.Result;
 
@@ -13,4 +14,6 @@ public interface UserService extends IService<User> {
     Result<String> updateInfo(User user);
 
     Result<String> updatePassword(User user);
+
+    Result<String> submitOrder(Order order);
 }

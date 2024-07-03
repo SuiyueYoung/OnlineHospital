@@ -28,4 +28,7 @@ public class Doctor {
 
     @TableField("deptno")
     private Integer deptno;
+
+    @TableField("hpId")
+    private Integer hospitalID;
 }
