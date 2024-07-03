@@ -1,14 +1,10 @@
 package com.rectangle.onlinehospital.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Data
@@ -16,6 +12,7 @@ import java.time.LocalDate;
 @TableName("orders")
 public class Order {
     @TableId(value = "orderId", type = IdType.AUTO)
+    @TableField(insertStrategy = FieldStrategy.NEVER)
     private Integer orderID;
 
     @TableField("orderDate")

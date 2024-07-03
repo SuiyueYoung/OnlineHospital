@@ -1,12 +1,15 @@
 package com.rectangle.onlinehospital.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rectangle.onlinehospital.entity.Hospital;
 import com.rectangle.onlinehospital.entity.Order;
 import com.rectangle.onlinehospital.mapper.OrderMapper;
 import com.rectangle.onlinehospital.mapper.UserMapper;
 import com.rectangle.onlinehospital.entity.security.UserDetailsDo;
 import com.rectangle.onlinehospital.entity.User;
+import com.rectangle.onlinehospital.service.HospitalService;
 import com.rectangle.onlinehospital.service.UserService;
 import com.rectangle.onlinehospital.utils.JwtTokenUtil;
 import com.rectangle.onlinehospital.utils.Result;
@@ -17,6 +20,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -25,13 +31,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
     private final OrderMapper orderMapper;
+    private final HospitalService hospitalService;
 
     @Autowired
-    public UserServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, PasswordEncoder passwordEncoder, OrderMapper orderMapper) {
+    public UserServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, PasswordEncoder passwordEncoder, OrderMapper orderMapper, HospitalService hospitalService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.passwordEncoder = passwordEncoder;
         this.orderMapper = orderMapper;
+        this.hospitalService = hospitalService;
     }
 
     /**
@@ -116,8 +124,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public Result<String> submitOrder(Order order) {
         try {
+            String reserveDate = order.getOrderDate().toString();
+            UpdateWrapper<Hospital> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.apply("CAST(JSON_EXTRACT(rule, '$.\"" + reserveDate + "\"') AS UNSIGNED) != 0");
+            updateWrapper.setSql("rule = JSON_SET(rule, '$.\"" + reserveDate + "\"', CAST(JSON_EXTRACT(rule, '$.\"" + reserveDate + "\"') AS UNSIGNED) - 1)");
+
+            boolean updateResult = hospitalService.update(updateWrapper);
+
+            if (!updateResult) {
+                return Result.error("No More Fast Pass for the time of physical examination");
+            }
+
             return orderMapper.insert(order) > 0 ?
                     Result.success(null) :
                     Result.error("Fail to submit order");
