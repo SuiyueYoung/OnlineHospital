@@ -8,7 +8,7 @@ import com.rectangle.onlinehospital.entity.Order;
 import com.rectangle.onlinehospital.entity.SetMeal;
 import com.rectangle.onlinehospital.entity.User;
 import com.rectangle.onlinehospital.entity.response.PhyExamReserveVo;
-import com.rectangle.onlinehospital.entity.security.SecurityUserDo;
+import com.rectangle.onlinehospital.entity.security.UserDetailsDo;
 import com.rectangle.onlinehospital.mapper.*;
 import com.rectangle.onlinehospital.entity.Doctor;
 import com.rectangle.onlinehospital.service.DoctorService;
@@ -50,8 +50,8 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityUserDo securityUserDo = (SecurityUserDo) authentication.getPrincipal();
-            return Result.success(jwtTokenUtil.generateToken(securityUserDo));
+            UserDetailsDo userDetailsDo = (UserDetailsDo) authentication.getPrincipal();
+            return Result.success(jwtTokenUtil.generateToken(userDetailsDo));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

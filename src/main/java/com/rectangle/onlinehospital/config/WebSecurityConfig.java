@@ -60,6 +60,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/user/login").permitAll()
                 .requestMatchers("/user/register").permitAll()
+                .requestMatchers("/doctor/login").permitAll()
                 .anyRequest().authenticated()
         );
 

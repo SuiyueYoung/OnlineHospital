@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rectangle.onlinehospital.entity.Order;
 import com.rectangle.onlinehospital.mapper.OrderMapper;
 import com.rectangle.onlinehospital.mapper.UserMapper;
-import com.rectangle.onlinehospital.entity.security.SecurityUserDo;
+import com.rectangle.onlinehospital.entity.security.UserDetailsDo;
 import com.rectangle.onlinehospital.entity.User;
 import com.rectangle.onlinehospital.service.UserService;
 import com.rectangle.onlinehospital.utils.JwtTokenUtil;
@@ -47,8 +47,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityUserDo securityUserDo = (SecurityUserDo) authentication.getPrincipal();
-            return Result.success(jwtTokenUtil.generateToken(securityUserDo));
+            UserDetailsDo userDetailsDo = (UserDetailsDo) authentication.getPrincipal();
+            return Result.success(jwtTokenUtil.generateToken(userDetailsDo));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

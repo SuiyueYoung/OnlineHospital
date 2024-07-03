@@ -33,7 +33,7 @@ public class DoctorController {
      */
     @RequestMapping("/login")
     public Result<String> login(@RequestBody @NotNull LoginDto loginDto) {
-        return doctorService.doctorLogin(loginDto.getUserID(), loginDto.getPassword());
+        return doctorService.doctorLogin(loginDto.getUsername(), loginDto.getPassword());
     }
 
     @RequestMapping("/phyExamReserve")

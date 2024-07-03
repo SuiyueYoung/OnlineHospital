@@ -90,7 +90,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Result<String> login(@RequestBody @NotNull LoginDto loginDto) {
-        return userService.userLogin(loginDto.getUserID(), loginDto.getPassword());
+        return userService.userLogin(loginDto.getUsername(), loginDto.getPassword());
     }
 
     /**

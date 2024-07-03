@@ -23,12 +23,13 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserDetailsServiceImpl jwtUserDetailsService;
     private final LoginFailureHandler loginFailureHandler;
+
+    private final UserDetailsServiceImpl userDetailsService;
 
     public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl jwtUserDetailsService, LoginFailureHandler loginFailureHandler) {
         this.jwtTokenUtil = jwtTokenUtil;
-        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.userDetailsService = jwtUserDetailsService;
         this.loginFailureHandler = loginFailureHandler;
     }
 
@@ -44,7 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String uri = request.getRequestURI();
-            if (!"/user/login".equals(uri) && !"/user/register".equals(uri)) {
+            if (!"/user/login".equals(uri) &&
+                    !"/user/register".equals(uri) &&
+                    !"/doctor/login".equals(uri)
+            ) {
                 this.validateToken(request);
             }
         } catch (AuthenticationException e) {
@@ -74,7 +78,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Validate the token
         try {
             String username = jwtTokenUtil.extractUsername(token);
-            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(userDetails, null, null);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
