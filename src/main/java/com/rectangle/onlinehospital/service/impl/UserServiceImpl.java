@@ -119,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         try {
             LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
             updateWrapper.eq(User::getUserID, updateInfo.getUsername())
-                    .set(User::getPassword, updateInfo.getPassword());
+                    .set(User::getPassword, passwordEncoder.encode(updateInfo.getPassword()));
             return update(updateWrapper) ?
                     Result.success(updateInfo.getUsername() + " update success") :
                     Result.error(updateInfo.getUsername() + " update error");
