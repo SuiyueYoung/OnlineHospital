@@ -16,14 +16,15 @@ public class AvailabilityVo {
 
     private List<availableDays> availableDays;
 
+    //内部类
     @Data
     @ToString
     public static class availableDays {
 
-        private LocalDate date;
+        private LocalDate date;//当月日期
 
-        private Integer remainSlots;
+        private Integer remainSlots;//剩余预约量
 
-        private Boolean reserve;
+        private Boolean reserve;//这天是否可以预约
     }
 }

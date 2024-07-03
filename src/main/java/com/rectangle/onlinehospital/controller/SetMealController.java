@@ -2,6 +2,7 @@ package com.rectangle.onlinehospital.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rectangle.onlinehospital.entity.CheckItem;
+import com.rectangle.onlinehospital.entity.Hospital;
 import com.rectangle.onlinehospital.entity.SetMeal;
 import com.rectangle.onlinehospital.entity.SetMealDetailed;
 import com.rectangle.onlinehospital.service.CheckItemService;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/setMeal")
-public class SetMealController {
+public class   SetMealController {
 
     private final SetMealService setMealService;
 
@@ -58,12 +59,18 @@ public class SetMealController {
             List<SetMealDetailed> smdList = setMealDetailedService.list(qw);
             //循环取出 关联表对象smd中检查项id ci_id
             //集合中存放是 所有checkItem 的检查项id
-            List<Integer> ciIds = smdList.stream().map(SetMealDetailed::getCiID).collect(Collectors.toList());
+            List<Integer> ciIds = smdList.stream().map(smd -> smd.getCiID()).collect(Collectors.toList());
             //使用查询出的套餐 所关联的  检查项id，到检查项checkItem表中查询具体数据
             List<CheckItem> checkitemList = checkItemService.listByIds(ciIds);
             sm.setCheckitemList(checkitemList);
         });
         //使用集合查询 集合中体检套餐 所包含的 检查项的 id（多个）
         return Result.success(setmealList);
+    }
+
+
+    @GetMapping("/getBySetMealID")
+    Result<SetMeal> getBySetMealID(Integer smID) {
+        return Result.success(setMealService.getById(smID));
     }
 }

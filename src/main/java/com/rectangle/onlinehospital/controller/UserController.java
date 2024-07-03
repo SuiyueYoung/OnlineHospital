@@ -43,7 +43,7 @@ public class UserController {
      * @Since version 1.0
      */
     @PostMapping("/getByUserID")
-    public Result<User> getByUserID(@RequestBody String userID) {
+    public Result<User> getByUserID(@RequestParam String userID) {
         return Result.success(userService.getById(userID));
     }
 

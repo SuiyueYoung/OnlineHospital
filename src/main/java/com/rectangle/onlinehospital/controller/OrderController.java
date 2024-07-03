@@ -22,7 +22,7 @@ public class OrderController {
     }
 
     @GetMapping("/checkAvailability")
-    public Result<AvailabilityVo> checkAvailability(@RequestBody CheckAvailabilityDto checkAvailabilityDto) {
+    public Result<AvailabilityVo> checkAvailability(CheckAvailabilityDto checkAvailabilityDto) {
         return orderService.checkAvailability(checkAvailabilityDto);
     }
 }

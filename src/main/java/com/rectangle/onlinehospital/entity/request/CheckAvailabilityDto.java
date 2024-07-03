@@ -7,9 +7,9 @@ import java.time.LocalDate;
 
 @Data
 public class CheckAvailabilityDto {
-    private Integer hpID;
+    private Integer hpID;//体检医院id
 
-    private Integer smID;
+    private Integer smID;//体检套餐id
 
     @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
     private LocalDate startDate;

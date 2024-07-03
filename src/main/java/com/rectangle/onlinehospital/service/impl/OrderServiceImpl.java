@@ -35,6 +35,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public Result<AvailabilityVo> checkAvailability(CheckAvailabilityDto checkAvailabilityDto) {
         Hospital hospital = hospitalService.getById(checkAvailabilityDto.getHpID());
+        System.out.println(checkAvailabilityDto.getHpID());
         if (Objects.isNull(hospital)) {
             throw new CustomerAuthenticationException("Fail to find hospital by hospital ID " + checkAvailabilityDto.getHpID());
         }
@@ -42,7 +43,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         int year = checkAvailabilityDto.getStartDate().getYear();
         int month = checkAvailabilityDto.getStartDate().getMonthValue();
         AvailabilityVo availabilityVo = calenderGenerate(year, month);
-
         jsonObject.forEach((key, value) -> {
             for (AvailabilityVo.availableDays day : availabilityVo.getAvailableDays()) {
                 if (!Objects.isNull(day.getDate()) && day.getDate().equals(LocalDate.parse(key, DateTimeFormatter.ofPattern("yyyy-MM-dd")))) {
@@ -89,3 +89,4 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return availabilityVo;
     }
 }
+
