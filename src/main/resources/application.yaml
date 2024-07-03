@@ -15,8 +15,3 @@ server:
 logging:
   level:
     org.springframework.security: TRACE
-user-roles:
-  roles:
-    0: "ROLE_SUPERUSER"
-    1: "ROLE_USER"
-    2: "ROLE_MEMBER"

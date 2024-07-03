@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rectangle.onlinehospital.entity.Hospital;
 import com.rectangle.onlinehospital.entity.Order;
+import com.rectangle.onlinehospital.entity.request.LoginDto;
 import com.rectangle.onlinehospital.mapper.OrderMapper;
 import com.rectangle.onlinehospital.mapper.UserMapper;
 import com.rectangle.onlinehospital.entity.security.UserDetailsDo;
@@ -100,7 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         updateWrapper.eq(User::getUserID, user.getUserID())
                 .set(User::getSex, user.getSex())
                 .set(User::getBirthday, user.getBirthday());
-        return baseMapper.update(null, updateWrapper) > 0 ?
+        return update(updateWrapper) ?
                 Result.success(user.getUserID() + " update success") :
                 Result.error(user.getUserID() + " update error");
     }
@@ -114,13 +115,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @Since version 1.0
      */
     @Override
-    public Result<String> updatePassword(User user) {
-        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(User::getUserID, user.getUserID())
-                .set(User::getPassword, user.getPassword());
-        return baseMapper.update(null, updateWrapper) > 0 ?
-                Result.success(user.getUserID() + " update success") :
-                Result.error(user.getUserID() + " update error");
+    public Result<String> updatePassword(LoginDto updateInfo) {
+        try {
+            LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+            updateWrapper.eq(User::getUserID, updateInfo.getUsername())
+                    .set(User::getPassword, updateInfo.getPassword());
+            return update(updateWrapper) ?
+                    Result.success(updateInfo.getUsername() + " update success") :
+                    Result.error(updateInfo.getUsername() + " update error");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

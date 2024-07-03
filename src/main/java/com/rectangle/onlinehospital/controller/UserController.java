@@ -70,8 +70,8 @@ public class UserController {
      * @Since version 1.0
      */
     @PostMapping("/updateUserPassword")
-    public Result<String> updateUserPassword(@RequestBody User user) {
-        return userService.updatePassword(user);
+    public Result<String> updateUserPassword(@RequestBody LoginDto updateInfo) {
+        return userService.updatePassword(updateInfo);
     }
 
 

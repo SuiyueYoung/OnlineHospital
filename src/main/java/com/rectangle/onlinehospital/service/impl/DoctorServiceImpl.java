@@ -83,6 +83,8 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
             reserveVoList.add(phyExamReserveVo);
         }
 
-        return new Page<PhyExamReserveVo>(page, size).setRecords(reserveVoList);
+        return new Page<PhyExamReserveVo>(page, size)
+                .setRecords(reserveVoList)
+                .setTotal(reserveVoList.size());
     }
 }
