@@ -3,6 +3,7 @@ package com.rectangle.onlinehospital;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.rectangle.onlinehospital.entity.request.CheckAvailabilityDto;
+import com.rectangle.onlinehospital.service.DoctorService;
 import com.rectangle.onlinehospital.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,16 @@ class OnlineHospitalApplicationTests {
         checkAvailabilityDto.setStartDate(localDate);
         orderService.checkAvailability(checkAvailabilityDto).getData().getAvailableDays().forEach(item -> {
             System.out.println("日期：" + item.getDate() + "余量：" + item.getRemainSlots() + "可以预约：" + item.getReserve());
+        });
+    }
+
+    @Autowired
+    DoctorService doctorService;
+
+    @Test
+    void doctorGetOrderTest() {
+        doctorService.getPhyExamReserve(1, 1, 1).getRecords().forEach(object -> {
+            System.out.println(object.toString());
         });
     }
 

@@ -1,5 +1,6 @@
 package com.rectangle.onlinehospital.controller;
 
+import com.rectangle.onlinehospital.entity.Order;
 import com.rectangle.onlinehospital.entity.request.LoginDto;
 import com.rectangle.onlinehospital.entity.User;
 import com.rectangle.onlinehospital.service.UserService;
@@ -71,6 +72,12 @@ public class UserController {
     @PostMapping("/updateUserPassword")
     public Result<String> updateUserPassword(@RequestBody User user) {
         return userService.updatePassword(user);
+    }
+
+
+    @PostMapping("/submitReserve")
+    private Result<String> submitReserve(@RequestBody Order order) {
+        return userService.submitOrder(order);
     }
 
     /**

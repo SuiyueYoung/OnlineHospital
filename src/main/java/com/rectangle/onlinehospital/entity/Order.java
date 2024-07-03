@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -17,7 +19,8 @@ public class Order {
     private Integer orderID;
 
     @TableField("orderDate")
-    private Date orderDate;
+    @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
+    private LocalDate orderDate;
 
     @TableField("userId")
     private String userID;
