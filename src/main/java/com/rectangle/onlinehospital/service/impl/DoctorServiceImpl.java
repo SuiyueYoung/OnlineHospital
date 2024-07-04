@@ -4,13 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rectangle.onlinehospital.entity.Order;
-import com.rectangle.onlinehospital.entity.SetMeal;
-import com.rectangle.onlinehospital.entity.User;
+import com.rectangle.onlinehospital.entity.*;
 import com.rectangle.onlinehospital.entity.response.PhyExamReserveVo;
 import com.rectangle.onlinehospital.entity.security.UserDetailsDo;
 import com.rectangle.onlinehospital.mapper.*;
-import com.rectangle.onlinehospital.entity.Doctor;
 import com.rectangle.onlinehospital.service.DoctorService;
 import com.rectangle.onlinehospital.utils.JwtTokenUtil;
 import com.rectangle.onlinehospital.utils.Result;
@@ -33,16 +30,18 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
     private final OrderMapper orderMapper;
     private final UserMapper userMapper;
     private final SetMealMapper setMealMapper;
+    private final HospitalMapper hospitalMapper;
 
 
     @Autowired
-    public DoctorServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, DoctorMapper doctorMapper, OrderMapper orderMapper, UserMapper userMapper, SetMealMapper setMealMapper) {
+    public DoctorServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, DoctorMapper doctorMapper, OrderMapper orderMapper, UserMapper userMapper, SetMealMapper setMealMapper, HospitalMapper hospitalMapper) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.doctorMapper = doctorMapper;
         this.orderMapper = orderMapper;
         this.userMapper = userMapper;
         this.setMealMapper = setMealMapper;
+        this.hospitalMapper = hospitalMapper;
     }
 
     @Override
@@ -60,7 +59,6 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
     @Override
     public IPage<PhyExamReserveVo> getPhyExamReserve(Integer page, Integer size, Integer doctorID) {
         Integer hospitalID = doctorMapper.selectById(doctorID).getHospitalID();
-        System.out.println(hospitalID);
         IPage<Order> orders = orderMapper.selectPage(
                 new Page<>(page, size),
                 new QueryWrapper<Order>().eq("hpId", hospitalID)
@@ -70,6 +68,7 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
         for (Order order : orders.getRecords()) {
             User user = userMapper.selectById(order.getUserID());
             SetMeal setMeal = setMealMapper.selectById(order.getSmID());
+            Hospital hospital = hospitalMapper.selectById(hospitalID);
 
             PhyExamReserveVo phyExamReserveVo = new PhyExamReserveVo();
 
@@ -79,6 +78,7 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
             phyExamReserveVo.setPhoneNumber(user.getUserID());
             phyExamReserveVo.setRealName(user.getRealName());
             phyExamReserveVo.setSetMealType(setMeal.getType());
+            phyExamReserveVo.setHospitalName(hospital.getName());
 
             reserveVoList.add(phyExamReserveVo);
         }

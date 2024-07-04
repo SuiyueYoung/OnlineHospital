@@ -16,5 +16,7 @@ public class PhyExamReserveVo {
 
     private Integer setMealType;
 
+    private String hospitalName;
+
     private LocalDate physicalExaminationDate;
 }
